@@ -61,6 +61,7 @@ func getData() []DockerContainer {
 	return out
 }
 
+// types
 type DockerContainer struct {
 	Name    string
 	Status  string
