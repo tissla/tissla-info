@@ -4,14 +4,16 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
+	"sort"
 	"strings"
 	"time"
 )
 
 func main() {
 
-	port := "8099"
+	port := os.Getenv("INFOPORT")
 
 	s := &http.Server{
 		Addr:           ":" + port,
@@ -56,7 +58,13 @@ func getData() []DockerContainer {
 			Created: c.CreatedAt,
 			Uptime:  c.RunningFor,
 		})
+
 	}
+
+	// sort alphabetically
+	sort.SliceStable(out, func(i, j int) bool {
+		return out[i].Name < out[j].Name
+	})
 
 	return out
 }
